@@ -1,0 +1,11 @@
+[33mcommit 023e2083f3a4acfeb0b27d9dbd2935e9e97edf65[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mURLTest[m[33m)[m
+Author: Daiju <daijukollon@gmail.com>
+Date:   Sun Oct 12 01:58:38 2025 +0530
+
+    fundscreener component added
+
+[33mcommit 94abdc05aa4516b209f3fcda266fc6b71fa1423f[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: Daiju <daijukollon@gmail.com>
+Date:   Wed Oct 8 03:21:44 2025 +0530
+
+    Initial Playwright framework set
