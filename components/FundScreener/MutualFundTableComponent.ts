@@ -38,21 +38,21 @@ export class MutualFundTableComponent {
         return Promise.all(fundNameRows.map(row => row.locator('.name').innerText()));
     }
 
-    async clickFundCheckbox(fundTicker:string) :Promise<void>{
+    async clickFundCheckbox(fundTicker: string): Promise<void> {
         const fundCheckbox = this.page.locator(`#checked-${fundTicker}`);
         await fundCheckbox.click();
     }
 
-    async isFundCheckboxDisabled(fundTicker:string) :Promise<boolean>{
-        return (await this.page.locator(`[id="checked-${fundTicker}"][disabled]`).count()===1);
+    async isFundCheckboxDisabled(fundTicker: string): Promise<boolean> {
+        return (await this.page.locator(`[id="checked-${fundTicker}"][disabled]`).count() === 1);
     }
 
-    async isFundChecked(fundTicker:string): Promise<boolean>{
-        const fundCheckbox:Locator= this.page.locator(`[id="checked-${fundTicker}"]`);
+    async isFundChecked(fundTicker: string): Promise<boolean> {
+        const fundCheckbox: Locator = this.page.locator(`[id="checked-${fundTicker}"]`);
         return await fundCheckbox.isChecked();
     }
-    async isSelectFund(fundLocator:Locator) :Promise<boolean>{
-        const ribbonIcon:Locator=fundLocator.locator('img[@alt="Select Fund Certified"]');
-        return (await ribbonIcon.count()>0);
+    async isSelectFund(fundLocator: Locator): Promise<boolean> {
+        const ribbonIcon: Locator = fundLocator.locator('img[@alt="Select Fund Certified"]');
+        return (await ribbonIcon.count() > 0);
     }
 }
