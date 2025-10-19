@@ -1,18 +1,18 @@
+// urls.ts
 const baseDomain = 'troweprice.com/personal-investing/tools/fund-research/';
 
-export const baseUrl: Record<string, string> = {
-    prod: `https://www.${baseDomain}`
+export const baseUrls: Record<string, string> = {
+    prod: `https://www.${baseDomain}`,
 };
 
 export enum Routes {
-
     FundResearch = '',
-    ETFScreener = 'etf'
-
+    ETFScreener = 'etf',
+    WatchList = 'watchlist',
 }
 
-export const generatedUrls = (baseURL: string = '') => ({
+export const generateUrls = (baseURL: string = baseUrls.prod) => ({
     fundResearch: `${baseURL}${Routes.FundResearch}`,
-    etfScreener: `${baseURL}${Routes.ETFScreener}`
-
+    etfScreener: `${baseURL}${Routes.ETFScreener}`,
+    watchList: `${baseURL}${Routes.WatchList}`,
 });
