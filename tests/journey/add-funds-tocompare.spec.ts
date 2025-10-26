@@ -60,11 +60,11 @@
 
 // tests/add-funds-tocompare.spec.ts
 import { test, expect, BrowserContext, Page } from '@playwright/test';
-import { FiltersComponent } from '../components/FundScreener/FiltersComponent';
-import { MutualFundTableComponent } from '../components/FundScreener/MutualFundTableComponent';
-import { MutualFundSearchComponent } from '../components/FundScreener/search-components';
-import { ActionBarComponent } from '../components/FundScreener/ActionBarcomponents';
-import { baseUrls, generateUrls } from '../Utils/urls';
+import { FiltersComponent } from '../../components/FundScreener/FiltersComponent';
+import { MutualFundTableComponent } from '../../components/FundScreener/MutualFundTableComponent';
+import { MutualFundSearchComponent } from '../../components/FundScreener/search-components';
+import { ActionBarComponent } from '../../components/FundScreener/ActionBarcomponents';
+import { baseUrls, generateUrls } from '../../Utils/urls';
 
 let context: BrowserContext;
 let page: Page;
@@ -155,12 +155,34 @@ test.describe('verify fund actions', () => {
 
     });
 
+    test('close action bar, verify it is closed', async () => {
 
+        await actionBar.fundTrayToggle.click();
+        expect(await actionBar.isOpen()).toEqual(false);
 
+    });
 
+    test('The Checkbox for "TRBCX" fund should be unchecked', async () => {
+        await filtersComponent.resetFilters();
+        expect(await table.isFundChecked('TRBCX')).toBe(false);
+    });
 
+    test('open action tray and click compare button', async () => {
+        await actionBar.open();
+        await actionBar.compareButton.click();
+        expect(page.url()).toContain('personal-investing/tools/fund-research/compare');
+    });
 
+    test('3 funds shoydl be displayed on compare page', async () => {
+
+        expect(await table.getFundNames()).toEqual([
+
+            'TRAIX - Mutual Fund', 'PREFX - Mutual Fund', 'PREFX - Mutual Fund']);
+
+    });
 
 
 
 });
+
+

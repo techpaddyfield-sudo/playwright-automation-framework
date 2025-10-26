@@ -24,6 +24,11 @@ export class FiltersComponent {
     }
     get iClassButton(): Locator {
         return this.screenerPage.locator("#add-filter-chip-i-class");
+
+    }
+    get iClassCheckBox(): Locator {
+        return this.container.locator("#checkbox-filter-i-class");
+
     }
     get allocationFundButton(): Locator {
         return this.getFilterButton('Allocation Funds');
@@ -46,5 +51,12 @@ export class FiltersComponent {
     get taxEfficientCheckbox() {
         return this.container.locator('#checkbox-filter-tax-efficient');
 
+    }
+
+    get resetButton(): Locator {
+        return this.page.locator('.additional button.reset');
+    }
+    async resetFilters() {
+        (await this.resetButton.count()) && await this.resetButton.click();
     }
 }
