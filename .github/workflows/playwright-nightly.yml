@@ -1,0 +1,82 @@
+name: Playwright + Allure
+
+on:
+  workflow_dispatch:          # Manual trigger
+  push:
+    branches: [ main ]        # CI on push
+  schedule:
+    - cron: '0 0 * * *'       # Nightly @ 00:00 UTC (8 PM US Eastern during DST)
+
+permissions:
+  contents: read
+  pages: write                # for GitHub Pages (optional)
+  id-token: write            # for GitHub Pages (optional)
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      # —— Run tests with Allure reporter ——
+      # NOTE: this works even if allure-playwright is only a devDependency.
+      - name: Run Playwright (Allure)
+        run: npx playwright test --reporter=allure-playwright,line
+
+      # —— Generate Allure HTML ——
+      # Uses the allure-commandline package (installed as a devDependency).
+      - name: Generate Allure Report
+        run: npx allure generate ./allure-results --clean -o ./allure-report
+
+      # —— Always upload artifacts so you can download from Actions ——
+      - name: Upload Allure Report (HTML)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report/
+
+      - name: Upload Allure Results (raw)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results/
+
+      # —— Prepare Pages artifact (optional) ——
+      - name: Upload Pages artifact
+        if: always()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report/
+
+  # —— Deploy to GitHub Pages (optional) ——
+  deploy:
+    if: always()
+    needs: test
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
