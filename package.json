@@ -9,11 +9,17 @@
   "license": "ISC",
   "devDependencies": {
     "@playwright/test": "^1.56.0",
+ URLTest
+    "@types/node": "^24.7.0",
+    "allure-commandline": "^2.34.1",
+    "allure-playwright": "^3.4.1"
+
     "@types/node": "^24.7.0"
     "devDependencies": {
   "@playwright/test": "...",
   "allure-playwright": "...",
   "allure-commandline": "latest"
 }
+ main
   }
 }

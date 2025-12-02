@@ -1,56 +1,43 @@
-import { Locator, Page, expect } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
-/**
- * Minimal component for the "Market Data" section.
- * Locates the section by its heading text and then grabs the first
- * non-empty element that follows each label.
- */
-export class MarketDataSection {
-    private root: Locator;
+export class WarningModalComponent {
 
-    constructor(private page: Page) {
-        // section container nearest to the "Market Data" heading
-        this.root = page
-            .getByRole("heading", { name: /^Market Data$/i })
-            .locator('xpath=ancestor::*[self::section or self::div][1]');
-    }
+    private page: Page;
+    private modal: Locator;
+    private closeButton: Locator;
+    private title: Locator;
+    private message: Locator;
 
-    async isVisible(): Promise<boolean> {
-        await this.root.first().waitFor({ state: "visible" });
-        return this.root.isVisible();
+    constructor(page: Page) {
+        this.page = page;
+        this.modal = page.locator('.warning-modal');
+        this.closeButton = this.modal.locator('.close-btn');
+        this.title = this.modal.locator('.title');
+        this.message = this.modal.locator('p');
     }
 
-    /** generic "value next to label" finder */
-    private valueFor(label: string): Locator {
-        // find the label node, then take the first following texty element
-        return this.root
-            .locator(`xpath=.//*[normalize-space(text())='${label}']`)
-            .first()
-            .locator(
-                "xpath=following::*[self::span or self::div or self::td or self::dd][normalize-space()][1]"
-            );
+    async waitForModal() {
+        await this.modal.waitFor({ state: 'visible' });
     }
 
-    totalNetAssets(): Locator {
-        return this.valueFor("Total Net Assets");
+    async closeModal() {
+        await this.closeButton.click();
     }
 
-    premiumDiscountToNav(): Locator {
-        return this.valueFor("Premium/Discount to NAV");
+    async isModalVisible() {
+
+        return await this.modal.isVisible();
     }
 
-    dailyTradingVolumes(): Locator {
-        return this.valueFor("Daily Trading Volumes (Shares)");
+    async getTitle() {
+        return await this.title.textContent();
     }
 
-    // convenience text getters (kept tiny for atomic tests)
-    async totalNetAssetsText(): Promise<string> {
-        return (await this.totalNetAssets().innerText()).trim();
+    async getMessage() {
+        return await this.message.textContent();
     }
-    async premiumDiscountText(): Promise<string> {
-        return (await this.premiumDiscountToNav().innerText()).trim();
-    }
-    async dailyTradingVolumesText(): Promise<string> {
-        return (await this.dailyTradingVolumes().innerText()).trim();
-    }
+
+
+
+
 }
