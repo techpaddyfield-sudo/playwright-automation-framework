@@ -1,62 +1,46 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page } from '@playwright/test';
 
 export class FiltersComponent {
+    constructor(private page: Page) { }
 
-    private static readonly selectors = {
-        filterContainer: '#main-content .filters',
-        buttonAriaLabel: (label: string) => `button[aria-label ="Filter for just ${label}"]`,
-    };
-    private container: Locator;
-    private screenerPage: Page;
-    constructor(private page: Page) {
-        this.screenerPage = page;
-        this.container = page.locator(FiltersComponent.selectors.filterContainer);
-    }
+    // --- Top buttons ---
 
-    getFilterButton(filterName: string): Locator {
-        return this.container.locator(FiltersComponent.selectors.buttonAriaLabel(filterName));
-    }
-    getSubfilterButton(subilterName: string): Locator {
-        return this.container.locator(`button[aria-label="Filter by ${subilterName}"]`);
-    }
     get stockFundButton(): Locator {
-        return this.getFilterButton('Stock Funds');
+        return this.page.getByRole('button', { name: /stock funds/i });
     }
-    get iClassButton(): Locator {
-        return this.screenerPage.locator("#add-filter-chip-i-class");
 
-    }
-    get iClassCheckBox(): Locator {
-        return this.container.locator("#checkbox-filter-i-class");
-
-    }
-    get allocationFundButton(): Locator {
-        return this.getFilterButton('Allocation Funds');
-    }
-    get bondFundButton(): Locator {
-        return this.getFilterButton('Bond Funds');
-    }
-    get targetFundButton(): Locator {
-        return this.getFilterButton("Target Date Funds");
-
-    }
     get otherAttributeButton(): Locator {
-        return this.getSubfilterButton('Other Attributes');
+        return this.page.getByRole('button', { name: /other attributes/i });
     }
 
-    get invstorClassCheckBox() {
-        return this.container.locator('#checkbox-filter-investor-class');
+    // I Class chip in the top bar
+    get iClassButton(): Locator {
+        return this.page.locator('#add-filter-chip-i-class');
     }
 
-    get taxEfficientCheckbox() {
-        return this.container.locator('#checkbox-filter-tax-efficient');
+    // --- Filter options (just use visible text, no containers, no div[...] !) ---
 
+    get invstorClassCheckBox(): Locator {
+        return this.page.locator('div.label:has-text("Investor Class")');
     }
+
+    get iClassCheckBox(): Locator {
+        return this.page.locator('div.label:has-text("I Class")');
+    }
+
+    get taxEfficientCheckbox(): Locator {
+        return this.page.locator('div.label:has-text("Tax-Efficient")');
+    }
+
+    // --- Reset ---
 
     get resetButton(): Locator {
         return this.page.locator('.additional button.reset');
     }
+
     async resetFilters() {
-        (await this.resetButton.count()) && await this.resetButton.click();
+        if (await this.resetButton.isVisible()) {
+            await this.resetButton.click();
+        }
     }
 }
