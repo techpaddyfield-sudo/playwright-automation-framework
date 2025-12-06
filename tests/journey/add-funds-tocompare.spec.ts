@@ -62,9 +62,9 @@
 import { test, expect, BrowserContext, Page } from '@playwright/test';
 import { FiltersComponent } from '../../components/FundScreener/FiltersComponent';
 import { MutualFundTableComponent } from '../../components/FundScreener/MutualFundTableComponent';
-import { MutualFundSearchComponent } from '../../components/FundScreener/search-components';
+import { MutualFundSearchComponent } from '../../components/FundScreener/MutualFundSearchComponent';
 import { ActionBarComponent } from '../../components/FundScreener/ActionBarcomponents';
-import { baseUrls, generateUrls } from '../../Utils/urls';
+import { baseUrls, generateUrls } from '../../utils/urls';
 
 let context: BrowserContext;
 let page: Page;
