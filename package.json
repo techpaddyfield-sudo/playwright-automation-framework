@@ -1,3 +1,23 @@
+
+{
+  "name": "playwright-framework",
+  "version": "1.0.0",
+  "description": "Playwright automation framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.0",
+    "allure-commandline": "^2.34.1",
+    "allure-playwright": "^3.4.1"
+
   {
     "name": "playwright-framework",
     "version": "1.0.0",
@@ -17,4 +37,5 @@
       "allure-commandline": "^2.34.1",
       "allure-playwright": "^3.4.1"
     }
+
   }
