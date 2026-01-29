@@ -12,6 +12,10 @@ export class FiltersComponent {
     get stockFundButton(): Locator {
         return this.page.getByRole('button', { name: /stock funds/i });
     }
+    get bondFundButton(): Locator {
+        return this.page.getByRole('button', { name: /Bond funds/i });
+    }
+
 
     get allocationFundsButton(): Locator {
         return this.page.getByRole('button', { name: /allocation funds/i });
@@ -42,6 +46,9 @@ export class FiltersComponent {
     get iClassButton(): Locator {
         return this.page.locator('#add-filter-chip-i-class');
     }
+
+
+
 
     // --- Filter options ---
 
